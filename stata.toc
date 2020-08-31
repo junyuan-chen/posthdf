@@ -1,0 +1,4 @@
+v 3
+d POSTHDF: Post estimation results from HDF5 files
+d Junyuan Chen, Department of Economics, University of California San Diego
+p 'posthdf' Post estimation results from HDF5 files

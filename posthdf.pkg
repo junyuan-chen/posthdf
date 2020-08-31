@@ -1,0 +1,26 @@
+v 3
+d 'POSTHDF': Post estimation results from HDF5 files
+d
+d Author: Junyuan Chen, Department of Economics, University of California San Diego
+d
+d posthdf posts scalars, macros and matrices in e()
+d using estimation results stored in HDF5 files.
+d
+d For details, please visit
+d https://github.com/junyuan-chen/posthdf
+d
+d Requires: Stata version 16
+d           Python 3.7
+d
+d Required Python packages:
+d           NumPy
+d           h5py
+d
+d Distribution-Date: 20200831
+d
+f posthdf.ado
+f posthdf.py
+f posthdf.sthlp
+f usehdf.ado
+f usehdf.sthlp
+f coefname_parsers.py
