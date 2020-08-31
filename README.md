@@ -25,7 +25,7 @@ and streamlines the editing process.
 The latest release is on the `stable` branch of this repository
 and can be obtained by running the following command in Stata:
 
-    net install posthdf, replace from("https://raw.githubusercontent.com/junyuan-chen/posthdf/stable/)
+    net install posthdf, replace from(https://raw.githubusercontent.com/junyuan-chen/posthdf/stable/)
 
 The `master` branch contains the latest development
 that might have not been tagged for release.

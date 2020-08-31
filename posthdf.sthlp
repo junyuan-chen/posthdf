@@ -95,7 +95,7 @@ See {help usehdf:{bf:usehdf}} for more details regarding to data loading.
 {p 4 4 2}
 The latest release can be obtained by running the following command:
 
-{p 8 8 2} {bf:. net install posthdf, replace from("https://raw.githubusercontent.com/junyuan-chen/posthdf/stable/)}
+{p 8 8 2} {bf:. net install posthdf, replace from(https://raw.githubusercontent.com/junyuan-chen/posthdf/stable/)}
 
 {p 4 4 2}
 {bf:Note:}

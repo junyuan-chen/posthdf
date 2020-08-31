@@ -87,7 +87,7 @@ Installation
 
 The latest release can be obtained by running the following command:
 
-> __. net install posthdf, replace from("https://raw.githubusercontent.com/junyuan-chen/posthdf/stable/)__
+> __. net install posthdf, replace from(https://raw.githubusercontent.com/junyuan-chen/posthdf/stable/)__
 
 __Note:__
 
