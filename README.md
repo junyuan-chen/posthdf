@@ -13,7 +13,7 @@ using estimation results stored in [HDF5](https://www.hdfgroup.org/solutions/hdf
 obtained from any statistical software into Stata
 for producing tables and plots.
 
-- Use the widely compatible [HDF5](https://www.hdfgroup.org/solutions/hdf5/) file format to collect results generated from virtually any tool.
+- Use the widely supported [HDF5](https://www.hdfgroup.org/solutions/hdf5/) file format to collect results generated from virtually any tool.
 
 - Load groups of results into Stata with a simple one-line command.
 
