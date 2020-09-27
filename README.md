@@ -1,6 +1,6 @@
 # POSTHDF: Post estimation results from HDF5 files
 
-[![GitHub release (latest by date)](https://img.shields.io/github/v/release/junyuan-chen/posthdf?logoColor=success)](https://github.com/junyuan-chen/posthdf/releases)
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/junyuan-chen/posthdf)](https://github.com/junyuan-chen/posthdf/releases)
 [![stata version](https://img.shields.io/badge/Stata%20version-≥%2016-informational)](https://www.stata.com/)
 [![made-with-python](https://img.shields.io/badge/made%20with-Python-informational.svg)](https://www.python.org/)
 
@@ -9,17 +9,20 @@ that posts scalars, macros and matrices in `e()`
 using estimation results stored in [HDF5](https://www.hdfgroup.org/solutions/hdf5/) files.
 
 ## Why `posthdf`?
-Tools for reading/writing HDF5 files are widely available across platforms.
-By simplifying the process of loading estimation results into Stata,
-this module eases the joint use of multiple statistical packages
-in the stage of reporting and visualization.
-One can conveniently take advantage of the excellent tools
-such as [`estout`](http://repec.sowi.unibe.ch/stata/estout/index.html)
-and [`coefplot`](http://repec.sowi.unibe.ch/stata/coefplot/index.html) in Stata,
-even though the estimation process is done somewhere else.
-With all the results collected in one place,
-it is easier to maintain a consistent formatting style
-and streamlines the editing process.
+`posthdf` makes it easy to load estimation results
+obtained from any statistical software into Stata
+for producing tables and plots.
+
+- Use the widely supported [HDF5](https://www.hdfgroup.org/solutions/hdf5/) file format to collect results generated from virtually any tool.
+
+- Load groups of results into Stata with a simple one-line command.
+
+- Access results in Stata with  [`estimates restore`](https://www.stata.com/help.cgi?estimates) and group names.
+
+- Optionally specify and transform coefficient names with flexible customization.
+
+- Streamline the editing process with [`estout`](http://repec.sowi.unibe.ch/stata/estout/index.html)
+and [`coefplot`](http://repec.sowi.unibe.ch/stata/coefplot/index.html).
 
 ## Installation
 The latest release is on the `stable` branch of this repository
@@ -40,7 +43,7 @@ and it needs to be linked to Stata with
 [`python set exec`](https://www.stata.com/help.cgi?python).
 
 The following Python packages are required:
-- [Numpy](https://numpy.org/)  
+- [NumPy](https://numpy.org/)  
 - [h5py](https://www.h5py.org/)
 
 If you do not already have a Python installation,
@@ -58,14 +61,14 @@ An HDF5 file consists of `groups` and `datasets`.
 Each collection of estimation results should be saved
 in the same HDF5 group with each item being an HDF5 dataset named appropriately.
 
-- An HDF5 group is just like a folder.
+- An HDF5 `group` is just like a folder.
 Results saved in the same group
 will be posted in the same collection in Stata
 as if they were generated from an e-class command.
 The group name will also be used to save the results
 through [`estimates store`](https://www.stata.com/help.cgi?estimates).
 
-- An HDF5 dataset holds the data as an array.
+- An HDF5 `dataset` holds the data as an array.
 Each object such as the coefficient vector,
 the variance-covariance matrix,
 the number of observations, etc.,
@@ -76,7 +79,7 @@ when the object is posted as `e(name)` in Stata.
 - Certain objects provide special information for
 [`ereturn post`](https://www.stata.com/help.cgi?ereturn).
 It is best to name the datasets containing these objects
-using the default values listed in the help file (`help posthdf`)
+using the default values listed in the help file (run `help posthdf` in Stata)
 so that no further specification is needed to inform their locations.
 
 #### Posting the estimation results in Stata
