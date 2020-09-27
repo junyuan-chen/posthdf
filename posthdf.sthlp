@@ -113,7 +113,7 @@ and it needs to be linked to Stata (see {help python:{bf:python set exec}}).
 {p 4 4 2}
 The following Python packages are required:
 
-{p 8 8 2}  {browse "https://numpy.org/":Numpy}    {break}
+{p 8 8 2}  {browse "https://numpy.org/":NumPy}    {break}
 {browse "https://www.h5py.org/":h5py}
 
 {p 4 4 2}
@@ -133,7 +133,7 @@ Each collection of estimation results should be saved
 in the same HDF5 group with each item being an HDF5 dataset named appropriately.
 
 {p 4 4 2}
-An HDF5 group is just like a folder.
+An HDF5 {it:group} is just like a folder.
 Results saved in the same group
 will be posted in the same collection in Stata
 as if they were generated from an e-class command.
@@ -141,7 +141,7 @@ The group name will also be used to save the results
 through {help estimates:{bf:estimates store}}.
 
 {p 4 4 2}
-An HDF5 dataset holds the data as an array.
+An HDF5 {it:dataset} holds the data as an array.
 Each object such as the coefficient vector,
 the variance-covariance matrix,
 the number of observations, etc.,
