@@ -39,37 +39,43 @@ def get_parents(n, o):
 
 def coef(v, cnames):
     b = v.reshape(1,len(v))
-    Matrix.store('b', b)
+    bname = SFIToolkit.getTempName()
+    Matrix.store(bname, b)
     if cnames:
-        Matrix.setColNames('b', cnames)
+        Matrix.setColNames(bname, cnames)
+    return bname
 
 def vcov(v, cnames):
     V = np.diag(v) if v.ndim == 1 else v
-    Matrix.store('V', V)
+    vname = SFIToolkit.getTempName()
+    Matrix.store(vname, V)
     if cnames:
-        Matrix.setColNames('V', cnames)
-        Matrix.setRowNames('V', cnames)
+        Matrix.setColNames(vname, cnames)
+        Matrix.setRowNames(vname, cnames)
+    return vname
 
-def generic(k, v, cats):
+def generic(k, v):
     if v.ndim == 0:
         if is_num(v):
             Scalar.setValue(sn(k), v)
-            cats['scalars'].append(k)
+            st('ereturn scalar '+sn(k)+'='+sn(k))
         else:
             Macro.setLocal(sn(k), decode(v))
-            cats['macros'].append(k)
+            st('ereturn local '+sn(k)+' `'+sn(k)+"'")
     elif v.ndim == 1:
         if all(is_num(n) for n in v):
-            Matrix.store(sn(k), v.reshape(1,len(v)))
-            cats['matrices'].append(k)
+            tname = SFIToolkit.getTempName()
+            Matrix.store(tname, v.reshape(1,len(v)))
+            st('ereturn matrix '+sn(k)+'='+tname)
         else:
             v = ' '.join([str(s) for s in v])
             Macro.setLocal(sn(k), v)
-            cats['macros'].append(k)
+            st('ereturn local '+sn(k)+' `'+sn(k)+"'")
     elif v.ndim == 2:
         if all(is_num(n) for n in v):
-            Matrix.store(sn(k), v)
-            cats['matrices'].append(k)
+            tname = SFIToolkit.getTempName()
+            Matrix.store(tname, v)
+            st('ereturn matrix '+sn(k)+'='+tname)
 
 def load(path, rootname, root, groups, append):
     global ests
@@ -93,7 +99,7 @@ def load(path, rootname, root, groups, append):
             SFIToolkit.exit(7103)
         for g in gs:
             # Stata name does not allow '/'
-            e = rootname if g == '/' else g.replace('/', '_')
+            e = sn(rootname) if g == '/' else sn(g)
             if g in h:
                 d = {}
                 for k, v in h[g].items():
@@ -168,24 +174,16 @@ def post(gname, parser, nostore, key_b, key_V, key_y, key_cnames, key_N, key_dof
     if key_dofr in est:
         dof = ' dof('+str(int(get_scalar(est[key_dofr])))+')'
     if key_b in est:
-        coef(est[key_b], cnames)
+        bname = ' '+coef(est[key_b], cnames)
         if key_V in est:
-            vcov(est[key_V], cnames)
-            st('ereturn post b V,'+y+obs+dof)
+            vname = ' '+vcov(est[key_V], cnames)
+            st('ereturn post'+bname+vname+','+y+obs+dof)
         else:
-            st('ereturn post b,'+y+obs+dof)
-    # Save the name of each object by type
-    cats = {'scalars':[], 'macros':[], 'matrices':[]}
-    # Format each object and pass to Stata
+            st('ereturn post'+bname+','+y+obs+dof)
+    # Classify and format the remaining objects and then post in e-class
     for k, v in est.items():
         if not k in (key_b, key_V, key_cnames, key_y, key_N, key_dofr):
-            generic(k, v, cats)
-    for k in cats['scalars']:
-        st('ereturn scalar '+sn(k)+'='+sn(k))
-    for k in cats['macros']:
-        st('ereturn local '+sn(k)+' `'+sn(k)+"'")
-    for k in cats['matrices']:
-        st('ereturn matrix '+sn(k)+'='+sn(k))
+            generic(k, v)
     # est store only works if e(cmd) exists
     if 'cmd' not in est:
         st('ereturn local cmd posthdf')

@@ -125,6 +125,8 @@ will be posted in the same collection in Stata
 as if they were generated from an e-class command.
 The group name will also be used to save the results
 through {help estimates:{bf:estimates store}}.
+A group name that is invalid for being used as a Stata name
+will be converted automatically.
 
 An HDF5 _dataset_ holds the data as an array.
 Each object such as the coefficient vector,
