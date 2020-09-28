@@ -1,6 +1,7 @@
 # POSTHDF: Post estimation results from HDF5 files
 
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/junyuan-chen/posthdf)](https://github.com/junyuan-chen/posthdf/releases)
+[![view changelog](https://img.shields.io/badge/view-changelog-informational.svg)](https://github.com/junyuan-chen/posthdf/blob/master/CHANGELOG.md)
 [![stata version](https://img.shields.io/badge/Stata%20version-≥%2016-informational)](https://www.stata.com/)
 [![made-with-python](https://img.shields.io/badge/made%20with-Python-informational.svg)](https://www.python.org/)
 
