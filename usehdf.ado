@@ -1,6 +1,6 @@
-*! version 0.1.0  31aug2020
+*! version 0.1.1  27sep2020
 /***
-{* *! version 0.1.0  31aug2020}{...}
+{* *! version 0.1.1  27sep2020}{...}
 {vieweralsosee "posthdf" "help posthdf"}{...}
 {viewerjumpto "Stored results" "usehdf##results"}{...}
 Title

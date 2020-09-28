@@ -1,4 +1,4 @@
-# version 0.1.0  31aug2020
+# version 0.1.1  27sep2020
 def is_int(s):
     return s[1:].isdigit() if s[0]=='-' else s.isdigit()
 

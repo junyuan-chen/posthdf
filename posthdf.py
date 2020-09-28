@@ -1,4 +1,4 @@
-# version 0.1.0  31aug2020
+# version 0.1.1  27sep2020
 from sfi import Scalar, Macro, Matrix, SFIToolkit
 from numbers import Number
 from collections import OrderedDict
