@@ -99,7 +99,7 @@ def load(path, rootname, root, groups, append):
             SFIToolkit.exit(7103)
         for g in gs:
             # Stata name does not allow '/'
-            e = rootname if g == '/' else g.replace('/', '_')
+            e = sn(rootname) if g == '/' else sn(g)
             if g in h:
                 d = {}
                 for k, v in h[g].items():
