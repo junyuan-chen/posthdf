@@ -92,14 +92,21 @@ def load(path, rootname, root, groups, append):
         if len(gs) == 0:
             h.visititems(get_parents)
             gs = [g if g == '/' else g[1:] for g in set(load.parents)]
-        if root=='noroot':
+        if root == 'noroot':
             gs = [g for g in gs if g != '/']
         if len(gs) == 0:
             SFIToolkit.errprintln('No group is found.')
             SFIToolkit.exit(7103)
         for g in gs:
             # Stata name does not allow '/'
-            e = sn(rootname) if g == '/' else sn(g)
+            e = sn(rootname) if g == '/' else g
+            # Ensure group name is not too long for est store
+            if len(e)>27:
+                SFIToolkit.errprintln('Warning: The following group name is too long for Stata:')
+                SFIToolkit.errprintln(e)
+                SFIToolkit.errprintln('Try truncating the name to 27 characters.')
+                e = e[:27]
+            e = sn(g)
             if g in h:
                 d = {}
                 for k, v in h[g].items():
