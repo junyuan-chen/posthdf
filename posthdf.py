@@ -103,8 +103,8 @@ def load(path, rootname, root, groups, append):
             # Ensure group name is not too long for est store
             if len(e)>27:
                 SFIToolkit.errprintln('Warning: The following group name is too long for Stata:')
-                SFIToolkit.errprintln(e)
-                SFIToolkit.errprintln('Try truncating the name to 27 characters.')
+                SFIToolkit.errprintln('  '+e)
+                SFIToolkit.errprintln('  Try truncating the name to 27 characters.')
                 e = e[:27]
             e = sn(g)
             if g in h:
