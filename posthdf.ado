@@ -25,8 +25,10 @@ is required unless {help usehdf:{bf:usehdf}} has been called.
 > __2.__ If neither _groupnames_ nor option __i(_#_)__ is specified,
 all available groups will be posted.
 
-> __3.__ The '/' contained in group names is not allowed in Stata names.
-Hence, any '/' will be replaced by '_' automatically when the data are loaded.
+> __3.__ Any character invalid for being used in Stata names, such as '/',
+will be replaced by '_' automatically when the data are loaded.
+A group name should not be longer than 27 characters.
+Otherwise, it will be truncated.
 
 | _options_ | Default | Description |
 |:----------------|:------------|:-------------------------------------------------|
@@ -125,8 +127,11 @@ will be posted in the same collection in Stata
 as if they were generated from an e-class command.
 The group name will also be used to save the results
 through {help estimates:{bf:estimates store}}.
-A group name that is invalid for being used as a Stata name
-will be converted automatically.
+Any character contained in a group name that is invalid for
+being used in a Stata name
+will be replaced by an underscore character '_' automatically.
+If a group name contains more than 27 characters,
+it will be truncated to satisfy the maximum length for {help estimates:{bf:estimates store}}.
 
 An HDF5 _dataset_ holds the data as an array.
 Each object such as the coefficient vector,
