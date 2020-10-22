@@ -27,7 +27,8 @@ all available groups will be posted.
 
 > __3.__ Any character invalid for being used in Stata names, such as '/',
 will be replaced by '_' automatically when the data are loaded.
-A group name should not be longer than 27 characters.
+
+> __4.__ A group name should not be longer than 27 characters.
 Otherwise, it will be truncated.
 
 | _options_ | Default | Description |
@@ -130,8 +131,9 @@ through {help estimates:{bf:estimates store}}.
 Any character contained in a group name that is invalid for
 being used in a Stata name
 will be replaced by an underscore character '_' automatically.
-If a group name contains more than 27 characters,
-it will be truncated to satisfy the maximum length for {help estimates:{bf:estimates store}}.
+A group name that is longer than 27 characters
+will be truncated to satisfy
+the maximum length allowed by {help estimates:{bf:estimates store}}.
 
 An HDF5 _dataset_ holds the data as an array.
 Each object such as the coefficient vector,
