@@ -97,7 +97,11 @@ Hence, if a group name has to contain {c 39}/{c 39}
 (which is the case whenever the group is below the root group by two or more levels),
 any {c 39}/{c 39} is replaced by {c 39}_{c 39}.
 
-{p 8 8 2} {bf:2.} The loaded data are stored in Python dictionaries.
+{p 8 8 2} {bf:2.} A group name that is longer than 27 characters
+will be truncated to satisfy
+the maximum length allowed by {help estimates:{bf:estimates store}}.
+
+{p 8 8 2} {bf:3.} The loaded data are stored in Python dictionaries.
 To access these data in Python,
 enter {help python:Python} interactive environment and import {bf:ests}:
 

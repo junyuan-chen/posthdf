@@ -86,7 +86,11 @@ Hence, if a group name has to contain '/'
 (which is the case whenever the group is below the root group by two or more levels),
 any '/' is replaced by '_'.
 
-> __2.__ The loaded data are stored in Python dictionaries.
+> __2.__ A group name that is longer than 27 characters
+will be truncated to satisfy
+the maximum length allowed by {help estimates:{bf:estimates store}}.
+
+> __3.__ The loaded data are stored in Python dictionaries.
 To access these data in Python,
 enter {help python:Python} interactive environment and import __ests__:
 

@@ -27,8 +27,11 @@ is required unless {help usehdf:{bf:usehdf}} has been called.
 {p 8 8 2} {bf:2.} If neither {it:groupnames} nor option {bf:i({it:#})} is specified,
 all available groups will be posted.
 
-{p 8 8 2} {bf:3.} The {c 39}/{c 39} contained in group names is not allowed in Stata names.
-Hence, any {c 39}/{c 39} will be replaced by {c 39}_{c 39} automatically when the data are loaded.
+{p 8 8 2} {bf:3.} Any character invalid for being used in Stata names, such as {c 39}/{c 39},
+will be replaced by {c 39}_{c 39} automatically when the data are loaded.
+
+{p 8 8 2} {bf:4.} A group name should not be longer than 27 characters.
+Otherwise, it will be truncated.
 
 {col 5}{it:options}{col 22}Default{col 35}Description
 {space 4}{hline}
@@ -139,8 +142,12 @@ will be posted in the same collection in Stata
 as if they were generated from an e-class command.
 The group name will also be used to save the results
 through {help estimates:{bf:estimates store}}.
-A group name that is invalid for being used as a Stata name
-will be converted automatically.
+Any character contained in a group name that is invalid for
+being used in a Stata name
+will be replaced by an underscore character {c 39}_{c 39} automatically.
+A group name that is longer than 27 characters
+will be truncated to satisfy
+the maximum length allowed by {help estimates:{bf:estimates store}}.
 
 {p 4 4 2}
 An HDF5 {it:dataset} holds the data as an array.
