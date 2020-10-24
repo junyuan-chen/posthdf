@@ -106,7 +106,7 @@ they can be converted into a format that Stata understands
 using a parser specified by option `parser`.
 Users can provide their own parsers if desired.
 
-Please see the help files for details on syntax and more examples.
+Please see the help files for details on available options and more examples.
 
 ## Contributing
 
