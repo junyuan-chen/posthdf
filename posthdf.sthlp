@@ -24,8 +24,9 @@ and {it:filename} is the path to the {help posthdf##HDF5:HDF5 file}.
 {p 8 8 2} {bf:1.} {bf:using} {it:filename}
 is required unless {help usehdf:{bf:usehdf}} has been called.
 
-{p 8 8 2} {bf:2.} If neither {it:groupnames} nor option {bf:i({it:#})} is specified,
-all available groups will be posted.
+{p 8 8 2} {bf:2.} If neither {it:groupnames} nor option {bf:i({help numlist:{it:numlist}})} is specified,
+all available groups will be posted unless {bf:with({it:strlist})}
+or {bf:without({it:strlist})} is specified.
 
 {p 8 8 2} {bf:3.} Any character invalid for being used in Stata names, such as {c 39}/{c 39},
 will be replaced by {c 39}_{c 39} automatically when the data are loaded.
@@ -38,6 +39,8 @@ Otherwise, it will be truncated.
 {col 5}{bf:{ul:p}arser({it:str})}{col 22}{space 1}{col 35}interpret {help fvvarlist:factor variables} and {help tsvarlist:time-series operators} from
 {col 5}{space 1}{col 22}{space 1}{col 35}coefficient names with the specified method (see {help posthdf##parsers:Parsers})
 {col 5}{bf:i({help numlist:{it:numlist}})}{col 22}{space 1}{col 35}post the {bf:i}th group in {bf:e()} when the order is known from {help usehdf:{bf:usehdf}}
+{col 5}{bf:{ul:w}ith({it:strlist})}{col 22}{space 1}{col 35}only post groups with at least one of the strings in the group name
+{col 5}{bf:{ul:witho}ut({it:strlist})}{col 22}{space 1}{col 35}do not post groups with any of the strings in the group name
 {col 5}{bf:{ul:nos}tore}{col 22}{space 1}{col 35}do not store results through {help estimates:{bf:estimates store}}
 {col 5}{bf:b({it:str})}{col 22}{c 39}b{c 39}{col 35}specify key for the matrix {bf:b}
 {col 5}{bf:v({it:str})}{col 22}{c 39}V{c 39}{col 35}specify key for the matrix {bf:V}
@@ -47,8 +50,13 @@ Otherwise, it will be truncated.
 {col 5}{bf:{ul:d}ofr({it:str})}{col 22}{c 39}df_r{c 39}{col 35}specify key for the residual degrees of freedom
 {space 4}{hline}
 {p 4 4 2}
-{bf:Note:}
-{c 39}Key{c 39} refers to the name of the HDF5 dataset containing the relevant object.
+{bf:Notes:}
+
+{p 8 8 2} {bf:1.} The options {bf:with({it:strlist})} and {bf:without({it:strlist})}
+have precedence over optional arguments {it:groupnames} and option {bf:i({help numlist:{it:numlist}})}
+for selecting the groups.
+
+{p 8 8 2} {bf:2.} {c 39}Key{c 39} refers to the name of the HDF5 dataset containing the relevant object.
 All the data where specifying the key is allowed
 are related to {help ereturn:{bf:ereturn post}}.
 If the keys are misspecified, the data will still be posted.
@@ -197,29 +205,24 @@ while in the previous example, all the data are loaded
 even though the remaining data are not posted in {bf:e()}.
 
 {p 4 4 2}
-If the coefficient names are stored in a dataset with some name other than {c 39}coefnames{c 39},
-it can be specified as follows:
-
-{p 8 8 2} {bf:. posthdf using example.h5, cnames(key_for_names)}
-
-{p 4 4 2}
-To select a parser for interpreting the coefficient names:
-
-{p 8 8 2} {bf:. posthdf using example.h5, parser(iwm)}
-
-{p 4 4 2}
-More details on the use of parsers can be found in {help posthdf##parsers:Parsers}.
-
-{p 4 4 2}
-{bf:Note:}
-
-{p 8 8 2} Whenever any option for keys or the parser is specified,
-as in the above two examples,
-they are applied to all the selected groups.
-
-{p 4 4 2}
 For the remaining examples,
 assume that data have been loaded by calling {help usehdf:{bf:usehdf}}.
+
+{p 4 4 2}
+To select the groups based on keywords contained in the group names,
+use the {bf:with()} option:
+
+{p 8 8 2} {bf:. posthdf, with(A 4)}
+
+{p 4 4 2}
+In the above example, if the groups loaded in memory
+have the names {bf:A_2}, {bf:B_2}, {bf:A_4} and {bf:B_4},
+the group {bf:B_2} is not posted.
+
+{p 4 4 2}
+Alternatively, the option {bf:without()} can be specified:
+
+{p 8 8 2} {bf:. posthdf, without(B_2)}
 
 {p 4 4 2}
 If groups {bf:A} and {bf:B} are known to be the first and second groups respectively
@@ -239,6 +242,27 @@ Note that to loop through all the groups, one can make use of
 {p 8 8 2} {bf:. foreach g in {c 96}r(hdfgroup_names){c 39} {c -(}}    {break}
 {space 2}2. {it:do something for group {c 96}g{c 39}}    {break}
 {space 2}3. {bf:{c )-}}
+
+{p 4 4 2}
+If the coefficient names are stored in a dataset with some name other than {c 39}coefnames{c 39},
+it can be specified as follows:
+
+{p 8 8 2} {bf:. posthdf, cnames(key_for_names)}
+
+{p 4 4 2}
+To select a parser for interpreting the coefficient names:
+
+{p 8 8 2} {bf:. posthdf, parser(iwm)}
+
+{p 4 4 2}
+More details on the use of parsers can be found in {help posthdf##parsers:Parsers}.
+
+{p 4 4 2}
+{bf:Note:}
+
+{p 8 8 2} Whenever any option for keys or the parser is specified,
+as in the above two examples,
+they are applied to all the selected groups.
 
 {marker parsers}{...}
 

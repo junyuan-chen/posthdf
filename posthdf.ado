@@ -22,7 +22,7 @@ __Notes:__
 > __1.__ __using__ _filename_
 is required unless {help usehdf:{bf:usehdf}} has been called.
 
-> __2.__ If neither _groupnames_ nor option __i(_#_)__ is specified,
+> __2.__ If neither _groupnames_ nor option {bf:i({help numlist:{it:numlist}})} is specified,
 all available groups will be posted unless __with(_strlist_)__
 or __without(_strlist_)__ is specified.
 
@@ -50,7 +50,7 @@ Otherwise, it will be truncated.
 __Notes:__
 
 > __1.__ The options __with(_strlist_)__ and __without(_strlist_)__
-have precedence over optional arguments _groupnames_ and option __i(_#_)__
+have precedence over optional arguments _groupnames_ and option {bf:i({help numlist:{it:numlist}})}
 for selecting the groups.
 
 > __2.__ 'Key' refers to the name of the HDF5 dataset containing the relevant object.
