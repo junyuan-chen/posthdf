@@ -14,6 +14,20 @@ ests = OrderedDict()
 # Container for user-provided parsers
 custom_parsers = []
 
+# Containers for with and without options
+withs = []
+withouts = []
+
+def parse_withs_withouts(s1, s2):
+    """Convert inputs into unique words and check validity
+    """
+    global withs, withouts
+    s1, s2 = set(s1.split()), set(s2.split())
+    if len(s1 & s2) > 0:
+        SFIToolkit.errprintln('The same string cannot be passed to both options with() and without().')
+        SFIToolkit.exit(7103)
+    withs, withouts = list(s1), list(s2)
+
 def get_scalar(x):
     """Handle iterable object read from HDF5 when scalar is expected
     """
@@ -135,6 +149,9 @@ def load(path, rootname, root, groups, append):
     if len(ests) == 0:
         SFIToolkit.errprintln('No data found.')
         SFIToolkit.exit(7103)
+    elif len(ests) > 300:
+        SFIToolkit.displayln('{text:Warning: The number of groups in memory has passed 300, which is the maximum number of estimation results allowed by Stata.}')
+        SFIToolkit.displayln('{text:  Results have to be posted in batches.}')
     n_est = str(len(ests))
     est_keys = ' '.join(ests.keys())
     f = str(p)
@@ -159,8 +176,25 @@ def post(gname, parser, nostore, key_b, key_V, key_y, key_cnames, key_N, key_dof
         else:
             SFIToolkit.errprintln('Specified group name is not in memory.')
             SFIToolkit.exit(7103)
-    else:
-        est = ests[gname]
+    # Check whether gname contains any string in withs
+    if withs != []:
+        has_with = False
+        for s in withs:
+            if s in gname:
+                has_with = True
+                break
+        if not has_with:
+            return
+    # Check whether gname contains any string in withouts
+    if withouts != []:
+        has_without = False
+        for s in withouts:
+            if s in gname:
+                has_without = True
+                break
+        if has_without:
+            return
+    est = ests[gname]
     cnames = None
     if key_cnames in est:
         cnames = list(est[key_cnames])

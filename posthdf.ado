@@ -22,8 +22,9 @@ __Notes:__
 > __1.__ __using__ _filename_
 is required unless {help usehdf:{bf:usehdf}} has been called.
 
-> __2.__ If neither _groupnames_ nor option __i(_#_)__ is specified,
-all available groups will be posted.
+> __2.__ If neither _groupnames_ nor option {bf:i({help numlist:{it:numlist}})} is specified,
+all available groups will be posted unless __with(_strlist_)__
+or __without(_strlist_)__ is specified.
 
 > __3.__ Any character invalid for being used in Stata names, such as '/',
 will be replaced by '_' automatically when the data are loaded.
@@ -36,6 +37,8 @@ Otherwise, it will be truncated.
 | __**p**arser(_str_)__ | {space 1} | interpret {help fvvarlist:factor variables} and {help tsvarlist:time-series operators} from |
 | {space 1} | {space 1} | coefficient names with the specified method (see {help posthdf##parsers:Parsers}) |
 | {bf:i({help numlist:{it:numlist}})} | {space 1} | post the {bf:i}th group in __e()__ when the order is known from {help usehdf:{bf:usehdf}} |
+| __**w**ith(_strlist_)__ | {space 1} | only post groups with at least one of the strings in the group name |
+| __**witho**ut(_strlist_)__ | {space 1} | do not post groups with any of the strings in the group name |
 | __**nos**tore__ | {space 1} | do not store results through {help estimates:{bf:estimates store}} |
 | __b(_str_)__ | 'b' | specify key for the matrix __b__ |
 | __v(_str_)__ | 'V' | specify key for the matrix __V__ |
@@ -44,8 +47,13 @@ Otherwise, it will be truncated.
 | __**o**bs(_str_)__ | 'N' | specify key for the number of observations |
 | __**d**ofr(_str_)__ | 'df_r' | specify key for the residual degrees of freedom |
 
-__Note:__
-'Key' refers to the name of the HDF5 dataset containing the relevant object.
+__Notes:__
+
+> __1.__ The options __with(_strlist_)__ and __without(_strlist_)__
+have precedence over optional arguments _groupnames_ and option {bf:i({help numlist:{it:numlist}})}
+for selecting the groups.
+
+> __2.__ 'Key' refers to the name of the HDF5 dataset containing the relevant object.
 All the data where specifying the key is allowed
 are related to {help ereturn:{bf:ereturn post}}.
 If the keys are misspecified, the data will still be posted.
@@ -176,25 +184,21 @@ are loaded into memory;
 while in the previous example, all the data are loaded
 even though the remaining data are not posted in __e()__.
 
-If the coefficient names are stored in a dataset with some name other than 'coefnames',
-it can be specified as follows:
-
-> __. posthdf using example.h5, cnames(key_for_names)__
-
-To select a parser for interpreting the coefficient names:
-
-> __. posthdf using example.h5, parser(iwm)__
-
-More details on the use of parsers can be found in {help posthdf##parsers:Parsers}.
-
-__Note:__
-
-> Whenever any option for keys or the parser is specified,
-as in the above two examples,
-they are applied to all the selected groups.
-
 For the remaining examples,
 assume that data have been loaded by calling {help usehdf:{bf:usehdf}}.
+
+To select the groups based on keywords contained in the group names,
+use the __with()__ option:
+
+> __. posthdf, with(A 4)__
+
+In the above example, if the groups loaded in memory
+have the names __A_2__, __B_2__, __A_4__ and __B_4__,
+the group __B_2__ is not posted.
+
+Alternatively, the option __without()__ can be specified:
+
+> __. posthdf, without(B_2)__
 
 If groups __A__ and __B__ are known to be the first and second groups respectively
 from __r(hdfgroup_names)__ returned by {help usehdf:{bf:usehdf}},
@@ -212,6 +216,23 @@ __r(n_hdfgroup)__ and __r(hdfgroup_names)__ which are returned by {help usehdf##
 > __. foreach g in `r(hdfgroup_names)' {c -(}__  
 {space 2}2. _do something for group `g'_  
 {space 2}3. __{c )-}__
+
+If the coefficient names are stored in a dataset with some name other than 'coefnames',
+it can be specified as follows:
+
+> __. posthdf, cnames(key_for_names)__
+
+To select a parser for interpreting the coefficient names:
+
+> __. posthdf, parser(iwm)__
+
+More details on the use of parsers can be found in {help posthdf##parsers:Parsers}.
+
+__Note:__
+
+> Whenever any option for keys or the parser is specified,
+as in the above two examples,
+they are applied to all the selected groups.
 
 {marker parsers}{...}
 Parsers
@@ -303,7 +324,8 @@ This help file was dynamically produced by
 program posthdf, eclass
     version 16
     syntax [namelist(name=groupnames)] [using/] ///
-        [, i(numlist >0 int) Parser(string) noStore ///
+        [, Parser(string) i(numlist >0 int) ///
+        With(string) WITHOut(string) noStore ///
         b(string) v(string) ///
         y(string) CNames(string) Obs(string) Dofr(string) ///
         Name(string) Root noRoot GRoups(string) Append]
@@ -332,6 +354,7 @@ program posthdf, eclass
     if "`dofr'" == "" {
         local dofr "df_r"
     }
+    python: parse_withs_withouts("`with'", "`without'")
     if "`i'" != "" {
         foreach n of numlist `i' {
             local id = `n' - 1
@@ -351,6 +374,6 @@ end
 
 version 16
 python:
-from posthdf import post, postall
+from posthdf import parse_withs_withouts, post, postall
 from coefname_parsers import iwm
 end
