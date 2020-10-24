@@ -149,6 +149,9 @@ def load(path, rootname, root, groups, append):
     if len(ests) == 0:
         SFIToolkit.errprintln('No data found.')
         SFIToolkit.exit(7103)
+    elif len(ests) > 300:
+        SFIToolkit.errprintln('Warning: The number of groups in memory has passed 300, which is the maximum number of estimation results allowed by Stata.')
+        SFIToolkit.errprintln('  Results have to be posted in batches.')
     n_est = str(len(ests))
     est_keys = ' '.join(ests.keys())
     f = str(p)
