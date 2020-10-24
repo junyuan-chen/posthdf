@@ -184,25 +184,21 @@ are loaded into memory;
 while in the previous example, all the data are loaded
 even though the remaining data are not posted in __e()__.
 
-If the coefficient names are stored in a dataset with some name other than 'coefnames',
-it can be specified as follows:
-
-> __. posthdf using example.h5, cnames(key_for_names)__
-
-To select a parser for interpreting the coefficient names:
-
-> __. posthdf using example.h5, parser(iwm)__
-
-More details on the use of parsers can be found in {help posthdf##parsers:Parsers}.
-
-__Note:__
-
-> Whenever any option for keys or the parser is specified,
-as in the above two examples,
-they are applied to all the selected groups.
-
 For the remaining examples,
 assume that data have been loaded by calling {help usehdf:{bf:usehdf}}.
+
+To select the groups based on keywords contained in the group names,
+use the __with()__ option:
+
+> __. posthdf, with(A 4)__
+
+In the above example, if the groups loaded in memory
+have the names __A_2__, __B_2__, __A_4__ and __B_4__,
+the group __B_2__ is not posted.
+
+Alternatively, the option __without()__ can be specified:
+
+> __. posthdf, without(B_2)__
 
 If groups __A__ and __B__ are known to be the first and second groups respectively
 from __r(hdfgroup_names)__ returned by {help usehdf:{bf:usehdf}},
@@ -220,6 +216,23 @@ __r(n_hdfgroup)__ and __r(hdfgroup_names)__ which are returned by {help usehdf##
 > __. foreach g in `r(hdfgroup_names)' {c -(}__  
 {space 2}2. _do something for group `g'_  
 {space 2}3. __{c )-}__
+
+If the coefficient names are stored in a dataset with some name other than 'coefnames',
+it can be specified as follows:
+
+> __. posthdf, cnames(key_for_names)__
+
+To select a parser for interpreting the coefficient names:
+
+> __. posthdf, parser(iwm)__
+
+More details on the use of parsers can be found in {help posthdf##parsers:Parsers}.
+
+__Note:__
+
+> Whenever any option for keys or the parser is specified,
+as in the above two examples,
+they are applied to all the selected groups.
 
 {marker parsers}{...}
 Parsers
